@@ -27,9 +27,13 @@ app.get("/api/config/paypal", (req, res) => {
 let reqPath = path.join(__dirname, "../");
 
 app.use("/uploads", express.static(path.join(reqPath, "/uploads")));
-app.get("/", (req, res) => {
-  res.send("Server is good to ");
-});
+app.use(express.static(path.join(reqPath, "/frontend/build")));
+app.get("*", (req, res) =>
+  res.sendFile(path.join(reqPath, "/frontend/build/index.html"))
+);
+// app.get("/", (req, res) => {
+//   res.send("Server is good to ");
+// });
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
