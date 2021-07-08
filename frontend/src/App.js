@@ -33,7 +33,7 @@ function App() {
         <header className="row">
           <div>
             <Link className="brand" to="/">
-              Just shop
+              shopIt
             </Link>
           </div>
           <div>
