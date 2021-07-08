@@ -1,5 +1,5 @@
 import React from "react";
-import "/home/dracarys/Desktop/Full Stack Development/react/amazona/frontend/node_modules/font-awesome/css/font-awesome.min.css";
+import "../../node_modules/font-awesome/css/font-awesome.min.css";
 const Rating = (props) => {
   const { rating, numReviews } = props;
 
