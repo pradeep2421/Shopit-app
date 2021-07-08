@@ -2,15 +2,21 @@ const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 
 const { Order } = require("../models/orderModel.js");
-const { isAdmin, isAuth } = require("../utils.js");
+const { isAdmin, isAuth, isSellerOrAdmin } = require("../utils.js");
 const orderRouter = express.Router();
 
 orderRouter.get(
   "/",
   isAuth,
-  isAdmin,
+  isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
-    const orders = await Order.find({}).populate("user", "name");
+    const seller = req.query.seller || "";
+    const sellerFilter = seller ? { seller } : {};
+
+    const orders = await Order.find({ ...sellerFilter }).populate(
+      "user",
+      "name"
+    );
     res.send(orders);
   })
 );
@@ -32,6 +38,7 @@ orderRouter.post(
     } else {
       const order = new Order({
         orderItems: req.body.orderItems,
+        seller: req.body.orderItems[0].seller,
         shippingAddress: req.body.shippingAddress,
         paymentMethod: req.body.paymentMethod,
         itemsPrice: req.body.itemsPrice,
